@@ -25424,8 +25424,17 @@ void Player::StoreLootItem(uint8 lootSlot, Loot* loot, GameObject* go)
 
     if (!item)
     {
-        SendEquipError(EQUIP_ERR_LOOT_GONE, nullptr, nullptr);
-        return;
+        if(sWorld->getBoolConfig(CONFIG_AOE_LOOT))
+        {
+            //SendEquipError(EQUIP_ERR_LOOT_GONE, nullptr, nullptr); prevents error already loot from spamming
+            return;
+        }
+
+        else
+        {
+            SendEquipError(EQUIP_ERR_LOOT_GONE, nullptr, nullptr);
+            return;
+        }
     }
 
     if (!item->AllowedForPlayer(this))
